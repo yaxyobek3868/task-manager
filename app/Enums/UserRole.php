@@ -6,7 +6,8 @@ enum UserRole: int
 {
     case Admin = 1;
     case Manager = 2;
-    case Student = 3;
+    case Employee = 3;
+    case NoRole = 4;
 
 
     public function isAdmin(): bool
@@ -19,27 +20,19 @@ enum UserRole: int
         return self::Manager == $this;
     }
 
-    public function isStudent(): bool
+    public function isEmployee(): bool
     {
-        return self::Student == $this;
+        return self::Employee == $this;
+    }
+
+    public function isNoRole(): bool
+    {
+        return self::NoRole == $this;
     }
 
 
-    public static function lists(): array
+    public static function values(): array
     {
-        return [
-            self::Admin,
-            self::Manager,
-            self::Student,
-        ];
-    }
-
-
-    public static function person(): array
-    {
-        return [
-            "student" => self::Student,
-            "teacher" => self::Manager,
-        ];
+        return array_column(self::cases(), 'value');
     }
 }
