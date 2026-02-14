@@ -5,49 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Managment</title>
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-kanban-fill me-2"></i>TaskFlow
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a href="{{ route('tasks.index') }}" @class(['nav-link', 'active' => request()->routeIs('tasks.*')])>
-                        Vazifalar
-                    </a>
+                    <a class="nav-link active" href="{{route('tasks.index')}}"><i class="bi bi-list-check me-1"></i>Vazifalar</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('users.index') }}" @class(['nav-link', 'active' => request()->routeIs('users.*')])>
-                        Foydanaluvchilar
-
-                    </a>
+                    <a class="nav-link" href="{{route('users.index')}}"><i class="bi bi-people me-1"></i>Foydalanuvchilar</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('task-history.index') }}" @class(['nav-link', 'active' => request()->routeIs('vazifa.*')])>
-                        Vazifa tarixi
-                    </a>
+                    <a class="nav-link" href="{{route('task-history.index')}}"><i class="bi bi-clock-history me-1"></i>Vazifa tarixi</a>
+                </li>
             </ul>
-
-            <ul class="navbar-nav ms-auto mb-2">
-                @auth
-                    <li class="nav-item">
-                        <a href="/">
-                            Role
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-link nav-link">
-                               Chiqish
-                            </button>
-                        </form>
-                    </li>
-                @endauth
-            </ul>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-light btn-sm me-3">
+                    <a href="{{ route('logout') }}"
+                </button>
+                <div class="dropdown">
+                    <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown">
+                        A
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">admin<br><small class="text-muted">Admin</small></h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Sozlamalar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Chiqish</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
