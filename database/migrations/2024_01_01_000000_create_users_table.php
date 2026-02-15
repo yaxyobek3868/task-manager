@@ -18,8 +18,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', UserRole::values())->default(UserRole::Employee->value);
-            $table->string('avatar')->nullable();
-            $table->string('phone', 20)->nullable();
             $table->enum('status', UserStatus::values())->default(UserStatus::Pending->value);
             $table->rememberToken();
             $table->timestamps();

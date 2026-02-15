@@ -28,12 +28,12 @@
         <div class="col-md-4 offset-md-4">
             <div class="card mt-3">
                 <div class="body p-3">
-                    <div class="card">
-                        <h6 class="text-start m-lg-3 fw-light">
-                            Eslatma: Ro'yxatdan o'tgach, administrator sizga rol tayinlashi kerak, shundan keyingina tizimga kirishingiz mumkin
-                        </h6>
+{{--                    <div class="card">--}}
+{{--                        <h6 class="text-start m-lg-3 fw-light">--}}
+{{--                            Eslatma: Ro'yxatdan o'tgach, administrator sizga rol tayinlashi kerak, shundan keyingina tizimga kirishingiz mumkin--}}
+{{--                        </h6>--}}
 
-                    </div>
+{{--                    </div>--}}
                     <form action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="mb-3 mt-2">

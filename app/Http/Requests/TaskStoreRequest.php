@@ -2,16 +2,18 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
+class TaskStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -23,9 +25,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:3|confirmed',
-            'password_confirmation' => 'required|string|min:3',
+            'description' => 'required|string|max:255',
+            'user_id' => 'nullable|numeric',
+            'status' => 'required|numeric|in:1,2,3',
+            'date' => 'required|date',
         ];
     }
 }

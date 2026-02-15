@@ -2,63 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UserRoleRequest;
+use App\Http\Requests\UserStatusRequest;
+use App\Models\User;
+use App\Services\Contract\UserContract;
+
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        protected UserContract  $userContract
+    ) {}
+
+    public function index(?string $search = null)
     {
+        User::query()
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orderByDesc('id')
+            ->get();
+
         return view('users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function changeRole(UserRoleRequest $request, User $user)
     {
-        //
+         $user->update(['role' => $request->validated()['role']]);
+
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function changeStatus(UserStatusRequest $request, User $user)
     {
-        //
+        $user->update(['status' => $request->validated()['status']]);
+
+
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

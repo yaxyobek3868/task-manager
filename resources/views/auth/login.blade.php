@@ -38,38 +38,34 @@
                     <a href="{{ route('login') }}" class="btn btn-outline-primary">Parol bilan kirish </a>
                     <a href="{{ route ('login-by-email')}}" class="btn btn-outline-secondary">Email kod bilan kirish</a>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="body p-3">
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="username" class="form-label">Foydalanuvchi nomi yoki Email</label>
                             <input type="text" class="form-control" name="username" id="username" placeholder="Foydalanavchini nomni kiriting">
-
                         </div>
                         <div class="mb-3">
                             <label for="parol" class="form-label">Parol</label>
                             <input type="password" class="form-control" name="password" id="parol" placeholder="Paraoligizni kiriting">
                         </div>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary" type="button">Kirish</button>
+                            <button class="btn btn-primary" type="submit">Kirish</button>
                             <hr>
                             <div>
                                 <h6 class="text-center fw-light">Hisobingiz yo`qmi?
                                     <a href="{{ route('register') }}" class="text-decoration-none">Ro`yhatdan o`tish</a>
                                 </h6>
-                            </div>
-                            <div class="card">
-                                <h6 class="text-start m-lg-3 fw-light">
-                                    Demo ma'lumotlar: <br><br>
-
-                                    <strong>Admin:</strong> admin / istalgan parol <br>
-                                    <strong>Menejer:</strong> manager1 / istalgan parol <br>
-                                    <strong>Foydalanuvchi:</strong> john_doe / istalgan parol <br>
-                                    <hr>
-                                    Email kirish: Faol foydalanuvchining emailidan foydalaning (admin@company.com)<br>
-                                    Tasdiqlash kodi: 123456
-                                </h6>
-
                             </div>
 
                         </div>

@@ -45,19 +45,19 @@
                 <div class="body p-3">
                     <form action="{{ route('login-by-email') }}" method="POST">
                         @csrf
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-dark">
-                                    Qanday ishlaydi:
-                                </h6>
-                                <ul class="fw-light text-muted small ps-3">
-                                    <li>Email manzilingizni kiriting</li>
-                                    <li>Tasdiqlash kodi emailingizga yuboriladi</li>
-                                    <li>Emailingizni tekshiring va 6 xonali kodni kiriting</li>
-                                    <li>Tizimga kirasiz!</li>
-                                </ul>
-                            </div>
-                        </div>
+{{--                        <div class="card shadow-sm">--}}
+{{--                            <div class="card-body">--}}
+{{--                                <h6 class="fw-semibold mb-3 text-dark">--}}
+{{--                                    Qanday ishlaydi:--}}
+{{--                                </h6>--}}
+{{--                                <ul class="fw-light text-muted small ps-3">--}}
+{{--                                    <li>Email manzilingizni kiriting</li>--}}
+{{--                                    <li>Tasdiqlash kodi emailingizga yuboriladi</li>--}}
+{{--                                    <li>Emailingizni tekshiring va 6 xonali kodni kiriting</li>--}}
+{{--                                    <li>Tizimga kirasiz!</li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="mb-3 mt-2">
                             <label for="email" class="form-label">Email manzil</label>
@@ -88,19 +88,19 @@
                                 </li>
                             </ul>
 
-                            <div class="card">
-                                <h6 class="text-start m-lg-3 fw-light">
-                                    Demo ma'lumotlar: <br><br>
+{{--                            <div class="card">--}}
+{{--                                <h6 class="text-start m-lg-3 fw-light">--}}
+{{--                                    Demo ma'lumotlar: <br><br>--}}
 
-                                    <strong>Admin:</strong> admin / istalgan parol <br>
-                                    <strong>Menejer:</strong> manager1 / istalgan parol <br>
-                                    <strong>Foydalanuvchi:</strong> john_doe / istalgan parol <br>
-                                    <hr>
-                                    Email kirish: Faol foydalanuvchining emailidan foydalaning (admin@company.com)<br>
-                                    Tasdiqlash kodi: 123456
-                                </h6>
+{{--                                    <strong>Admin:</strong> admin / istalgan parol <br>--}}
+{{--                                    <strong>Menejer:</strong> manager1 / istalgan parol <br>--}}
+{{--                                    <strong>Foydalanuvchi:</strong> john_doe / istalgan parol <br>--}}
+{{--                                    <hr>--}}
+{{--                                    Email kirish: Faol foydalanuvchining emailidan foydalaning (admin@company.com)<br>--}}
+{{--                                    Tasdiqlash kodi: 123456--}}
+{{--                                </h6>--}}
 
-                            </div>
+{{--                            </div>--}}
 
                         </div>
                     </form>

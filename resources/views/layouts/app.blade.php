@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Managment</title>
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @stack('styles')
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#">
             <i class="bi bi-kanban-fill me-2"></i>TaskFlow
@@ -21,35 +24,36 @@
                     <a class="nav-link active" href="{{route('tasks.index')}}"><i class="bi bi-list-check me-1"></i>Vazifalar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('users.index')}}"><i class="bi bi-people me-1"></i>Foydalanuvchilar</a>
+                    <a class="nav-link" href="{{route('user.index')}}"><i class="bi bi-people me-1"></i>Foydalanuvchilar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('task-history.index')}}"><i class="bi bi-clock-history me-1"></i>Vazifa tarixi</a>
                 </li>
             </ul>
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-light btn-sm me-3">
-                    <a href="{{ route('logout') }}"
-                </button>
-                <div class="dropdown">
-                    <button class="btn btn-primary rounded-circle" type="button" data-bs-toggle="dropdown">
+            <div class="d-flex align-items-center gap-3">
+
+                <div>
+                    Admin
+                    <button class="btn bg-purple rounded-circle text-center text-white " type="button">
                         A
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">admin<br><small class="text-muted">Admin</small></h6></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Sozlamalar</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Chiqish</a></li>
-                    </ul>
+                </div>
+
+                <div>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary-subtle">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Chiqish
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container-fluid mt-3">
+<div class="container mt-3">
     @yield('content')
 </div>
 

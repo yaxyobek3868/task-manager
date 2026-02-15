@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
+use App\Services\Auth\Contract\AuthContract;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        protected AuthContract $authContract
+    ) {}
+
     public function showLogin()
     {
         return view('auth.login');
@@ -20,13 +21,13 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if (Auth::attempt($request->validated())) {
-            $request->session()->regenerate();
-            return redirect()->intended("users");
-        }
+       $response = $this->authContract->login($request->validated());
 
-        return back()->withErrors(['login' => 'Login yoki parol xato'])
-        ->withInput($request->only('password', 'username'));
+       if ($response['status']) {
+           return redirect()->route('user.index');
+       }
+
+       return redirect()->back()->withErrors($response['message']);
     }
 
     public function showLoginByEmail()
@@ -36,21 +37,12 @@ class AuthController extends Controller
 
     public function loginByEmail(LoginRequest $request)
     {
-        if (Auth::attempt($request->validated())) {
-            $request->session()->regenerate();
-            return redirect()->intended("users");
-        }
-
-        return back()->withErrors(['login' => 'Login yoki parol xato'])
-            ->withInput($request->only('password', 'username'));
+       return $this->authContract->loginByEmail($request->validated());
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+        $this->authContract->logout($request);
         return redirect()->route('login');
     }
 
@@ -63,17 +55,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
-
-        $user = User::create([
-            'name' => $data['name'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => UserRole::Student,
-        ]);
-
-
-        Auth::login($user);
+        $this->authContract->register($data);
 
         return redirect()->route('users.index')
             ->with('success', 'Xush kelibsiz! Ro\'yxatdan o\'tish muvaffaqiyatli.');
