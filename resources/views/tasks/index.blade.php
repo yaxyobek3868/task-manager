@@ -7,6 +7,11 @@
 @endpush
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -22,60 +27,48 @@
         </div>
     </div>
 
-
-    @if(session('success'))
-        <div class="alert-custom">
-            <i class="bi bi-check-circle-fill"></i>
-            <div class="flex-grow-1">
-                {{ session('success') }}
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-
     <div class="stats-cards">
-            <div class="stat-card all" onclick="filterTasks(0)">
+
+            <div class="stat-card all js_btn" data-status=0>
                 <div class="stat-header">
                     <div>
                         <div class="stat-title">Barcha vazifalar</div>
                     </div>
                 </div>
-                <div class="stat-value">5</div>
+                <div class="stat-value">{{ $stats['total'] }}</div>
             </div>
 
-            <div class="stat-card pending" onclick="filterTasks(1)">
+            <div class="stat-card pending js_btn" data-status=1>
                 <div class="stat-header">
                     <div>
                         <div class="stat-title">Kutilmoqda</div>
                     </div>
-
                 </div>
-                <div class="stat-value">2</div>
+                <div class="stat-value">{{ $stats['pending'] }}</div>
             </div>
 
-            <div class="stat-card completed" onclick="filterTasks(2)">
+            <div class="stat-card completed js_btn" data-status=2>
                 <div class="stat-header">
                     <div>
                         <div class="stat-title">Jarayonda</div>
                     </div>
                 </div>
-                <div class="stat-value">2</div>
+                <div class="stat-value">{{ $stats['in_progress'] }}</div>
             </div>
 
-            <div class="stat-card completed" onclick="filterTasks(3)">
+            <div class="stat-card completed js_btn" data-status=3>
                 <div class="stat-header">
                     <div>
                         <div class="stat-title">Bajarildi</div>
                     </div>
                 </div>
-                <div class="stat-value">1</div>
+                <div class="stat-value">{{ $stats['done'] }}</div>
             </div>
         </div>
 
 
     @foreach($tasks as $task)
-        <div class="card mb-3 shadow-sm">
+        <a href="{{ route('tasks.detail', $task['id']) }}" class="card mb-3 shadow-sm text-decoration-none text-dark">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <div class="flex-grow-1">
@@ -85,53 +78,54 @@
 
                     @if($task->status->isPending())
                         <span class="badge bg-primary">
-                            <i class="fa-solid fa-check"></i> <strong>Pending</strong>
-                        </span>
+                        <i class="fa-solid fa-check"></i> <strong>Pending</strong>
+                    </span>
                     @endif
 
                     @if($task->status->isInProgress())
                         <span class="badge bg-warning">
-                            <i class="fa-solid fa-play"></i> <strong>In Prosessing</strong>
-                        </span>
+                        <i class="fa-solid fa-play"></i> <strong>In Progress</strong>
+                    </span>
                     @endif
 
                     @if($task->status->isDone())
                         <span class="badge bg-success">
-                            <i class="fa-solid fa-clock"></i> <strong>Done</strong>
-                        </span>
+                        <i class="fa-solid fa-clock"></i> <strong>Done</strong>
+                    </span>
                     @endif
                 </div>
 
                 <div class="d-flex flex-wrap gap-3 text-sm">
-                    <div class="d-flex align-items-center text-muted">
-                        <i class="bi bi-person me-1"></i>
-                        <span>{{ $task->assigned_to ?? 'John Doe' }}</span>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{ $task->user->name ?? 'John Doe' }}</span>
                     </div>
 
-                    <div class="d-flex align-items-center text-muted">
-                        <i class="bi bi-calendar me-1"></i>
+                    <div>
+                        <i class="fa-solid fa-calendar"></i>
                         <span>Due {{ $task->end_date }}</span>
                     </div>
 
-                    <div class="d-flex align-items-center text-muted">
-                        <span>Created by {{ $task->created_by }}</span>
+                    <div>
+                        <span>Created by {{ $task->creator->name ?? "" }}</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     @endforeach
+
 
     <div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="createTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createTaskModalLabel">
-                        <i class="bi bi-plus-circle me-2 text-primary"></i>
+                        <i class="fa-solid fa-plus-circle me-2 text-primary"></i>
                         Yangi vazifa yaratish
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('tasks.store') }}" method="POST">
+                <form action="{{ route('tasks.store') }}" id="js_store_task_form" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -143,7 +137,7 @@
                                    id="taskName"
                                    name="name"
                                    placeholder="Vazifa nomini kiriting"
-                                   required>
+                                   >
                         </div>
 
                         <div class="mb-3">
@@ -155,7 +149,7 @@
                                       name="description"
                                       rows="4"
                                       placeholder="Vazifani batafsil tavsiflang"
-                                      required></textarea>
+                                      ></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -181,11 +175,11 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label for="dueDate" class="form-label">Tugash sanasi</label>
+                                <label for="end_date" class="form-label">Tugash sanasi</label>
                                 <input type="date"
                                        class="form-control"
-                                       id="dueDate"
-                                       name="due_date">
+                                       id="end_date"
+                                       name="end_date">
                             </div>
                         </div>
                     </div>
@@ -205,18 +199,83 @@
 
 @endsection
 
-@push('scripts')
-    <script>
-        function filterTasks(status) {
-            console.log('Filter:', status);
+@push('script')
+    <script type="application/javascript">
 
-            const url = new URL(window.location.href);
-            if (status === 0) {
-                url.searchParams.delete('status');
-            } else {
-                url.searchParams.set('status', status);
-            }
-            window.location.href = url.toString();
-        }
+        document.querySelectorAll('.js_btn').forEach(function (el) {
+
+            el.addEventListener('click', function () {
+
+                let status = this.dataset.status;
+                let baseUrl = "{{ route('tasks.index') }}";
+
+                window.location.href = status && status !== "0"
+                    ? `${baseUrl}/${status}`
+                    : baseUrl;
+            });
+
+        });
+
+
+        document.querySelectorAll('#js_store_task_form').forEach(function (el) {
+
+            el.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                this.querySelectorAll('.is-invalid').forEach(input => {
+                    input.classList.remove('is-invalid');
+                });
+                this.querySelectorAll('.invalid-feedback').forEach(feedback => {
+                    feedback.remove();
+                });
+
+                const formData = new FormData(this);
+
+                fetch(this.action, {
+                    method: this.method,
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === true) {
+                            // Modalni yopish
+                            const modal = this.closest('.modal');
+                            if(modal) {
+                                // agar Bootstrap 5 bo'lsa
+                                const modalInstance = bootstrap.Modal.getInstance(modal);
+                                modalInstance.hide();
+                            }
+
+                            window.location.reload();
+                        } else if (response.status === 422) {
+
+                            const errors = data.errors;
+                            for (let key in errors) {
+                                const input = this.querySelector(`[name="${key}"]`);
+                                if (input) {
+                                    input.classList.add('is-invalid');
+
+                                    // Bootstrap 5 uchun invalid-feedback qo'shish
+                                    const errorDiv = document.createElement('div');
+                                    errorDiv.classList.add('invalid-feedback');
+                                    errorDiv.innerText = errors[key][0];
+                                    input.insertAdjacentElement('afterend', errorDiv);
+                                }
+                            }
+                        else {
+                            console.log('Error:', data);
+                        }
+                    })
+                    .catch(error => console.error('Fetch Error:', error));
+
+
+            });
+
+        });
+
+
     </script>
 @endpush

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Services\Auth\AuthService;
 use App\Services\Auth\Contract\AuthContract;
+use App\Services\Auth\Contract\EmailLoginServiceInterface;
+use App\Services\Auth\EmailLoginService;
 use App\Services\Contract\TaskContract;
 use App\Services\Contract\TaskHistoryContract;
 use App\Services\Contract\UserContract;
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TaskContract::class, TaskService::class);
         $this->app->singleton(TaskHistoryContract::class, TaskHistoryService::class);
         $this->app->singleton(UserContract::class, UserService::class);
+        $this->app->singleton(EmailLoginServiceInterface::class, EmailLoginService::class);
     }
 
 

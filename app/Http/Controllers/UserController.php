@@ -2,42 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRoleRequest;
 use App\Http\Requests\UserStatusRequest;
 use App\Models\User;
 use App\Services\Contract\UserContract;
-
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function __construct(
-        protected UserContract  $userContract
+        protected UserContract $userContract
     ) {}
 
-    public function index(?string $search = null)
+    public function index(Request $request)
     {
-        User::query()
-            ->where('name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%')
-            ->orderByDesc('id')
-            ->get();
+        $search = $request->input('search');
+        $data = $this->userContract->index($search);
 
-        return view('users.index');
+        return view('users.index', $data);
     }
-
 
     public function changeRole(UserRoleRequest $request, User $user)
     {
-         $user->update(['role' => $request->validated()['role']]);
-
-
+        $this->userContract->changeRole($request, $user);
+        return redirect()->back()->with('success', 'Roli o\'zgartirildi.');
     }
 
     public function changeStatus(UserStatusRequest $request, User $user)
     {
-        $user->update(['status' => $request->validated()['status']]);
+        $this->userContract->changeStatus($request, $user);
+        return redirect()->back()->with('success', 'Holati o\'zgartirildi.');
+    }
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
 
+    public function update(UserRequest $request, User $user)
+    {
+        $this->userContract->update($request, $user);
 
+        return redirect()->route('tasks.index')
+            ->with('success', 'Foydalanuvchi yangilandi.');
+    }
+
+    public function destroy(User $user)
+    {
+        $this->userContract->destroy($user);
+
+        return redirect()->route('tasks.index')
+            ->with('success', 'Foydalanuvchi o‘chirildi.');
     }
 
 }

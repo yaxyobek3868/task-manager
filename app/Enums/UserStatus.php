@@ -11,17 +11,17 @@ enum UserStatus: int
 
     public function isPending(): bool
     {
-        return self::Pending == $this;
+        return self::Pending === $this;
     }
 
     public function isActive(): bool
     {
-        return self::Active == $this;
+        return self::Active === $this;
     }
 
     public function isInActive(): bool
     {
-        return self::InActive == $this;
+        return self::InActive === $this;
     }
 
 

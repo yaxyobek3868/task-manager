@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
-
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class TaskStoreRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -24,13 +22,17 @@ class TaskStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'user_id' => 'nullable',
-            'status' => 'required|in:1,2,3',
-            'end_date' => 'nullable|date',
-            'created_by' => 'nullable',
+            'username' => 'required',
+            'password' => 'required|string|min:3',
+        ];
+    }
 
+
+    public function messages(): array
+    {
+        return [
+            'username.required' => 'Foydalanuvchi nomi maydoni talab qilinadi.',
+            'password.required' => 'Parol kiritish majburiy.',
         ];
     }
 }

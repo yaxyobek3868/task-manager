@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 interface AuthContract
 {
-    public  function login(array $data);
-    public  function loginByEmail(array $data);
-    public function logout(Request $request);
-    public function register(array $data);
+    public function login(array $data): array;
+    public function loginByEmail(array $data): array;
+    public function logout(Request $request): void;
+    public function register(array $data): array;
+
 
 }

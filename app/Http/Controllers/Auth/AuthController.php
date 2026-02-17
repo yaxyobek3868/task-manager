@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\Contract\AuthContract;
 use Illuminate\Http\Request;
 
@@ -24,7 +24,7 @@ class AuthController extends Controller
        $response = $this->authContract->login($request->validated());
 
        if ($response['status']) {
-           return redirect()->route('user.index');
+           return redirect()->route('tasks.index');
        }
 
        return redirect()->back()->withErrors($response['message']);
@@ -54,11 +54,16 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $data = $request->validated();
-        $this->authContract->register($data);
+        $response = $this->authContract->register($request->validated());
 
-        return redirect()->route('users.index')
-            ->with('success', 'Xush kelibsiz! Ro\'yxatdan o\'tish muvaffaqiyatli.');
+        if ($response['status']) {
+            return redirect()->route('login')
+                ->with('success', $response['message']);
+        }
+
+        return back()->withErrors($response['message']);
     }
+
+
 }
 

@@ -15,7 +15,7 @@ enum UserRole: int
         return self::Admin == $this;
     }
 
-    public function isTeacher(): bool
+    public function isManager(): bool
     {
         return self::Manager == $this;
     }

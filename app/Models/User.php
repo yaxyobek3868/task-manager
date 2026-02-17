@@ -9,9 +9,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
+/**
+ * @method static create(array $array)
+ * @method static where(string $string, int $value)
+ * @property mixed $id
+ * @property mixed $role
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
 
     protected $fillable = [
         'name',
@@ -19,7 +26,7 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
-        "status",
+        'status',
     ];
 
 
@@ -28,14 +35,10 @@ class User extends Authenticatable
         'remember_token'
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'role' => UserRole::class,
-            'status' => UserStatus::class,
-        ];
-    }
-
+    protected $casts = [
+        'role' => UserRole::class,
+        'status' => UserStatus::class,
+    ];
 
 
     public function tasks()

@@ -119,3 +119,29 @@ body {
         margin-left: 0;
     }
 }
+
+
+.menu-active {
+    background: #dfeaf8;
+    color: #1447e6;
+    border: 1px solid #d2dff1;
+}
+
+.navbar-nav .nav-item .nav-link {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 1px solid #ffffff;
+    margin-top: 3px;
+    border-radius: 10px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    background: #dfeaf8;
+    color: #1447e6;
+    border: 1px solid #d2dff1;
+}
+
+
+.bg-purple.rounded-circle {
+    padding: 3px 10px;
+}

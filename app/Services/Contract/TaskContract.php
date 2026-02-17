@@ -2,18 +2,19 @@
 
 namespace App\Services\Contract;
 
-
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
-
+use App\Models\Task;
+use App\Models\TaskComment;
 
 interface TaskContract
 {
-    public function list(): Collection;
-    public function store(array $data): JsonResponse;
 
-    public function activeUser(): Collection;
+    public function index(?int $status): array;
+    public function store(array $data): Task;
+    public function detail(int $id): Task;
+    public function updateStatus(Task $task, int $status): bool;
+    public function update(int $id, array $data): bool;
 
-    public function detail($id): object;
-
+    public function edit(int $id): array;
+    public function destroy(int $id): bool;
+    public function comment(array $data, int $id): TaskComment;
 }

@@ -8,6 +8,7 @@
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm">
@@ -21,21 +22,32 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{route('tasks.index')}}"><i class="bi bi-list-check me-1"></i>Vazifalar</a>
+                    <a @class(['nav-link', 'menu-active' => request()->routeIs('tasks.*')])
+                       href="{{route('tasks.index')}}">
+                        <i class="fa-regular fa-square-check"></i> Vazifalar
+                    </a>
                 </li>
+                @if(auth()->user()->role->isAdmin())
+                    <li class="nav-item">
+                        <a @class(['nav-link', 'menu-active' => request()->routeIs('user.*')])
+                           href="{{route('user.index')}}">
+                            <i class="fa-solid fa-users"></i> Foydalanuvchilar
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('user.index')}}"><i class="bi bi-people me-1"></i>Foydalanuvchilar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('task-history.index')}}"><i class="bi bi-clock-history me-1"></i>Vazifa tarixi</a>
+                    <a @class(['nav-link', 'menu-active' => request()->routeIs('task-history.*')])
+                       href="{{route('task-history.index')}}">
+                        <i class="fa-solid fa-clock"></i> Vazifa tarixi
+                    </a>
                 </li>
             </ul>
             <div class="d-flex align-items-center gap-3">
-
                 <div>
-                    Admin
-                    <button class="btn bg-purple rounded-circle text-center text-white " type="button">
-                        A
+                    {{ auth()->user()->name }}
+
+                    <button class="bg-purple rounded-circle text-center text-white" type="button">
+                        {{ strtoupper(auth()->user()->name[0]) }}
                     </button>
                 </div>
 
@@ -58,5 +70,6 @@
 </div>
 
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+@stack('script')
 </body>
 </html>
