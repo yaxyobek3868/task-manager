@@ -14,7 +14,7 @@
 <nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold" href="#">
-            <i class="bi bi-kanban-fill me-2"></i>TaskFlow
+            <i class="fa-solid fa-tasks me-2"></i>TaskFlow
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -35,12 +35,14 @@
                         </a>
                     </li>
                 @endif
+                @if(auth()->user()->role->isAdmin())
                 <li class="nav-item">
                     <a @class(['nav-link', 'menu-active' => request()->routeIs('task-history.*')])
                        href="{{route('task-history.index')}}">
                         <i class="fa-solid fa-clock"></i> Vazifa tarixi
                     </a>
                 </li>
+                @endif
             </ul>
             <div class="d-flex align-items-center gap-3">
                 <div>

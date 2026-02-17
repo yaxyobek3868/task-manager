@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-//use App\Http\Controllers\Auth\EmailLoginController;
-
 
 Route::middleware('guest')->group(function () {
 
@@ -16,8 +14,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-//    Route::get('/login-by-email', [AuthController::class, 'showLoginByEmail'])->name('login-by-email');
-//    Route::post('/login-by-email', [AuthController::class, 'loginByEmail']);
+    Route::get('/login-by-email', [AuthController::class, 'showLoginByEmail'])->name('login-by-email');
+    Route::post('/login-by-email', [AuthController::class, 'loginByEmail']);
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 
@@ -25,7 +23,6 @@ Route::middleware('guest')->group(function () {
         return redirect()->route('login');
     });
 });
-
 
 Route::middleware('auth')->group(function () {
 
@@ -56,13 +53,9 @@ Route::middleware('auth')->group(function () {
 
     });
 
-
-
     Route::resource('task-history', TaskHistoryController::class);
     Route::get('/task-history', [TaskHistoryController::class, 'index'])
         ->name('task-history.index');
-
-
     Route::prefix('user')
         ->name('user.')
         ->middleware('isAdmin')

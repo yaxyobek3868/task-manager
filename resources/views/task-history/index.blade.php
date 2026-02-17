@@ -141,7 +141,7 @@
             </div>
         @empty
             <div class="text-center p-4">
-                <i class="bi bi-inbox" style="font-size: 40px;"></i>
+                <i class="fa-solid fa-inbox" style="font-size: 40px;"></i>
                 <p class="mt-2">Hozircha vazifalar mavjud emas</p>
             </div>
 
