@@ -22,6 +22,7 @@
         </div>
         <div class="header-actions">
             <button class="btn-create-task" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                <i class="fa-solid fa-plus-circle me-2 "></i>
                 <span>Vazifa yaratish</span>
             </button>
         </div>
@@ -184,11 +185,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-circle-xmark"></i>
                             Bekor qilish
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-lg me-1"></i>
+                            <i class="fa-solid fa-check me-1"></i>
                             Vazifa yaratish
                         </button>
                     </div>
